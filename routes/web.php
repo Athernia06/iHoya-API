@@ -16,22 +16,23 @@
 
 
 
-$router->get('/', function () use ($router) {
-    echo "<center> Welcome </center>";
-});
-
-$router->get('/version', function () use ($router) {
-    return $router->app->version();
-});
-
-Route::group([
-
-    'prefix' => 'api'
-
-], function ($router) {
-    Route::post('login', 'AuthController@login');
-    Route::post('logout', 'AuthController@logout');
-    Route::post('refresh', 'AuthController@refresh');
-    Route::post('user-profile', 'AuthController@me');
-
+/*
+ *
+ * UNAUTHENTICATED ROUTES
+ *
+ */
+$router->post( "/login", "AuthController@login");
+$router->post( "/register", "AuthController@register" );
+/*
+ *
+ * AUTHENTICATED ROUTES
+ *
+ */
+$router->group(
+  [
+    "middleware" => "auth",
+  ], function( $router ) {
+    $router->post( "/logout", "AuthController@logout" );
+    $router->get( "/refresh", "AuthController@refresh" ); 
+    $router->post( "/refresh", "AuthController@refresh" );
 });
