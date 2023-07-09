@@ -113,3 +113,25 @@ $app->router->group([
 });
 
 return $app;
+
+
+
+$app->withFacades(true, [
+    Tymon\JWTAuth\Facades\JWTAuth::class => 'JWTAuth',
+    Tymon\JWTAuth\Facades\JWTFactory::class => 'JWTFactory'
+]);
+
+$app->withEloquent(); 
+
+
+
+$app->routeMiddleware([
+    'auth' => App\Http\Middleware\Authenticate::class,
+]);
+
+$app->register(App\Providers\AuthServiceProvider::class);
+
+
+
+
+$app->register(Tymon\JWTAuth\Providers\LumenServiceProvider::class);
