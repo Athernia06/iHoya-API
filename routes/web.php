@@ -21,6 +21,9 @@
  * UNAUTHENTICATED ROUTES
  *
  */
+$router->get('/', function () use ($router) {
+  return '<h1>Welcome to iHoya API</h1>';
+});
 $router->post( "/login", "AuthController@login");
 $router->post( "/register", "AuthController@register" );
 /*
@@ -35,4 +38,5 @@ $router->group(
     $router->post( "/logout", "AuthController@logout" );
     $router->get( "/refresh", "AuthController@refresh" ); 
     $router->post( "/refresh", "AuthController@refresh" );
+    $router->get( "/profile", "AuthController@me" );
 });
