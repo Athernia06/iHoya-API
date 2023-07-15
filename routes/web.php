@@ -24,8 +24,8 @@
 $router->get('/', function () use ($router) {
   return '<h1>Welcome to iHoya API</h1>';
 });
-$router->post( "/login", ["uses" => "AuthController@login"]);
-$router->post( "/register", ["uses" => "AuthController@register"] );
+$router->post( "login", ["uses" => "AuthController@login"]);
+$router->post( "register", ["uses" => "AuthController@register"] );
 /*
  *
  * AUTHENTICATED ROUTES
@@ -35,8 +35,8 @@ $router->group(
   [
     "middleware" => "auth",
   ], function( $router ) {
-    $router->post( "/logout", ["uses" => "AuthController@logout"] );
-    $router->get( "/refresh", ["uses" => "AuthController@refresh"] ); 
-    $router->post( "/refresh", ["uses" => "AuthController@refresh"] );
-    $router->get( "/profile", ["uses" => "AuthController@me"] );
+    $router->post( "logout", ["uses" => "AuthController@logout"] );
+    $router->get( "refresh", ["uses" => "AuthController@refresh"] ); 
+    $router->post( "refresh", ["uses" => "AuthController@refresh"] );
+    $router->get( "profile", ["uses" => "AuthController@me"] );
 });
