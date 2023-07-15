@@ -47,7 +47,7 @@ class AuthController extends Controller
     // Are the proper fields present?
     $this->validate($request, [
       "email" => "required|string",
-      "‘password" => "required|string",
+      "password" => "required|string",
     ]);
     $credentials = $request->only(["email", "password"]);
     if (! $token = Auth::attempt($credentials)) {
