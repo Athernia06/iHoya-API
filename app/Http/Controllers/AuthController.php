@@ -25,10 +25,9 @@ class AuthController extends Controller
     ]);
     try {
       $user = new User;
-      $user->name = $request->input("name");
-      $user->email = $request->input("email");
-      $plainPassword = $request->input("password");
-      $user->password = app("hash")->make($plainPassword);
+      $user->name = $request->name;
+      $user->email = $request->email;
+      $user->password = bcrypt($request->password);
       $user->save();
       return response()->json(["user" => $user, "message" => "CREATED"], 201);
     } catch (\Exception $e) {
