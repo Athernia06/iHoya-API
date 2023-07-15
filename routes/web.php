@@ -26,6 +26,8 @@ $router->get('/', function () use ($router) {
 });
 $router->post( "login", ["uses" => "AuthController@login"]);
 $router->post( "register", ["uses" => "AuthController@register"] );
+
+$router->post( "tanaman", ["uses" => "TanamanController@postTanaman"]);
 /*
  *
  * AUTHENTICATED ROUTES
