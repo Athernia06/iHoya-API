@@ -54,8 +54,8 @@ class Post extends Model
 class Like extends Model
 {
     protected $fillable = [
-        'post_id',
-        'user_id',
+        'id_forum',
+        'id_user',
     ];
 
     public function post()
@@ -72,9 +72,9 @@ class Like extends Model
 class Comment extends Model
 {
     protected $fillable = [
-        'post_id',
-        'user_id',
-        'text',
+        'id_forum',
+        'id_user',
+        'deskripsi',
     ];
 
     public function post()
@@ -91,8 +91,8 @@ class Comment extends Model
 class Share extends Model
 {
     protected $fillable = [
-        'post_id',
-        'user_id',
+        'id_forum',
+        'id_user',
     ];
 
     public function post()
@@ -109,8 +109,8 @@ class Share extends Model
 class Bookmark extends Model
 {
     protected $fillable = [
-        'post_id',
-        'user_id',
+        'id_forum',
+        'id_user',
     ];
 
     public function post()
