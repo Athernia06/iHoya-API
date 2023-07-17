@@ -27,12 +27,11 @@ $router->get('/', function () use ($router) {
 $router->post( "login", ["uses" => "AuthController@login"]);
 $router->post( "register", ["uses" => "AuthController@register"] );
 
-$router->post( "tanaman", ["uses" => "TanamanController@postTanaman"]);
 /*
- *
- * AUTHENTICATED ROUTES
- *
- */
+*
+* AUTHENTICATED ROUTES
+*
+*/
 $router->group(
   [
     "middleware" => "auth",
@@ -41,4 +40,6 @@ $router->group(
     $router->get( "refresh", ["uses" => "AuthController@refresh"] ); 
     $router->post( "refresh", ["uses" => "AuthController@refresh"] );
     $router->get( "profile", ["uses" => "AuthController@me"] );
-});
+    $router->post( "tanaman", ["uses" => "TanamanController@postTanaman"]);
+    $router->post( "post", ["uses" => "ForumController@createPost"]);
+  });
