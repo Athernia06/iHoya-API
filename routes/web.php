@@ -41,5 +41,10 @@ $router->group(
     $router->post( "refresh", ["uses" => "AuthController@refresh"] );
     $router->get( "profile", ["uses" => "AuthController@me"] );
     $router->post( "tanaman", ["uses" => "TanamanController@postTanaman"]);
+    
     $router->post( "post", ["uses" => "ForumController@createPost"]);
+    $router->post( "post/{postId}/likes", ["uses" => "ForumController@createLike"]);
+    $router->post( "post/{postId}/comments", ["uses" => "ForumController@createComment"]);
+    $router->post( "post/{postId}/shares", ["uses" => "ForumController@createShare"]);
+    $router->post( "post/{postId}/bookmarks", ["uses" => "ForumController@createBookmark"]);
   });
