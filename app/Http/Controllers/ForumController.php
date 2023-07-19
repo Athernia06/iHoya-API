@@ -57,7 +57,7 @@ class ForumController extends Controller
         return response()->json(['message' => $message]);
     }
 
-    public function createComment(Request $request, $postId)
+    public function Comment(Request $request, $postId)
     {
         $this->validate($request, [
             'deskripsi' => 'required|string',
@@ -77,7 +77,7 @@ class ForumController extends Controller
         return response()->json(['message' => 'Comment created successfully']);
     }
 
-    public function createShare(Request $request, $postId)
+    public function Share(Request $request, $postId)
     {
         $user = Auth::user();
         $post = Post::findOrFail($postId);

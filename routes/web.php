@@ -43,7 +43,7 @@ $router->group(
     $router->post( "tanaman", ["uses" => "TanamanController@postTanaman"]);
     
     $router->post( "post", ["uses" => "ForumController@createPost"]);
-    $router->post( "post/{postId}/likes", ["uses" => "ForumController@createLike"]);
+    $router->get( "post/{postId}/likes", ["uses" => "ForumController@createLike"]);
     $router->post( "post/{postId}/comments", ["uses" => "ForumController@createComment"]);
     $router->post( "post/{postId}/shares", ["uses" => "ForumController@createShare"]);
     $router->post( "post/{postId}/bookmarks", ["uses" => "ForumController@createBookmark"]);
