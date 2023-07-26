@@ -57,7 +57,11 @@ class AuthController extends Controller
       // Login has failed
       return response()->json(["message" => "Unauthorized"], 401);
     }
-    return $this->respondWithToken($token);
+    $user = User::where('email', request('email'))->first();
+    $user->update([
+      'api_token' => $token
+    ]);
+    return response()->json(compact('user', 'token'), 200);
   }
   /**
   * Log the user out (Invalidate the token). Requires a login to use as the
@@ -77,7 +81,7 @@ class AuthController extends Controller
   public function refresh() {
     return $this->respondWithToken( auth()->refresh() );
   }
-
+  
   function me() {
     return 'berhasil';
   }
