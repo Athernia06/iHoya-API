@@ -44,7 +44,7 @@ class TanamanController extends Controller
     
     function listTanaman()
     {
-        $tanamanPerPulau = Tanaman::with('pulau')->get()->groupBy('id_pulau')->get();
+        $tanamanPerPulau = Tanaman::with('pulau')->get()->groupBy('id_pulau');
         return response()->json($tanamanPerPulau, 200);
     }
 }
