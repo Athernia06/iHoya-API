@@ -47,4 +47,6 @@ $router->group(
     $router->post( "post/{postId}/comments", ["uses" => "ForumController@createComment"]);
     $router->post( "post/{postId}/shares", ["uses" => "ForumController@createShare"]);
     $router->post( "post/{postId}/bookmarks", ["uses" => "ForumController@createBookmark"]);
+
+    $router->get( "tanaman", ["uses" => "TanamanController@listTanaman"]);
   });
