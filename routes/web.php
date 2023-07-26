@@ -34,19 +34,19 @@ $router->post( "register", ["uses" => "AuthController@register"] );
 */
 $router->group(
   [
-    "middleware" => "auth",
-  ], function( $app ) {
-    $app->post( "logout", ["uses" => "AuthController@logout"] );
-    $app->get( "refresh", ["uses" => "AuthController@refresh"] ); 
-    $app->post( "refresh", ["uses" => "AuthController@refresh"] );
-    $app->get( "profile", ["uses" => "AuthController@me"] );
-    $app->post( "tanaman", ["uses" => "TanamanController@postTanaman"]);
+    "middleware" => "jwt",
+  ], function( $router ) {
+    $router->post( "logout", ["uses" => "AuthController@logout"] );
+    $router->get( "refresh", ["uses" => "AuthController@refresh"] ); 
+    $router->post( "refresh", ["uses" => "AuthController@refresh"] );
+    $router->get( "profile", ["uses" => "AuthController@me"] );
+    $router->post( "tanaman", ["uses" => "TanamanController@postTanaman"]);
     
-    $app->post( "post", ["uses" => "ForumController@createPost"]);
-    $app->get( "post/{postId}/likes", ["uses" => "ForumController@createLike"]);
-    $app->post( "post/{postId}/comments", ["uses" => "ForumController@createComment"]);
-    $app->post( "post/{postId}/shares", ["uses" => "ForumController@createShare"]);
-    $app->post( "post/{postId}/bookmarks", ["uses" => "ForumController@createBookmark"]);
+    $router->post( "post", ["uses" => "ForumController@createPost"]);
+    $router->get( "post/{postId}/likes", ["uses" => "ForumController@createLike"]);
+    $router->post( "post/{postId}/comments", ["uses" => "ForumController@createComment"]);
+    $router->post( "post/{postId}/shares", ["uses" => "ForumController@createShare"]);
+    $router->post( "post/{postId}/bookmarks", ["uses" => "ForumController@createBookmark"]);
 
-    $app->get( "tanaman", ["uses" => "TanamanController@listTanaman"]);
+    $router->get( "tanaman", ["uses" => "TanamanController@listTanaman"]);
   });
