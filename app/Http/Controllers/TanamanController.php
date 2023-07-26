@@ -15,7 +15,6 @@ class TanamanController extends Controller
             'id_pulau'   => 'required|exists:pulau,id',
             'nama' => 'required',
             'deskripsi' => 'required',
-            'warna' => 'required',
             'foto' => 'required',
         ]);
         if ($validator->fails()) {
@@ -34,7 +33,6 @@ class TanamanController extends Controller
         $tanaman->id_pulau = $request->id_pulau;
         $tanaman->nama = $request->nama;
         $tanaman->deskripsi = $request->deskripsi;
-        $tanaman->warna = $request->warna;
         $tanaman->foto = $request->foto;
         $tanaman->save();
         return response()->json([
