@@ -26,7 +26,7 @@ $router->get('/', function () use ($router) {
 });
 $router->post( "login", ["uses" => "AuthController@login"]);
 $router->post( "register", ["uses" => "AuthController@register"] );
-
+$router->get( "profile", ["uses" => "AuthController@me"] );
 /*
 *
 * AUTHENTICATED ROUTES
@@ -39,7 +39,7 @@ $router->group(
     $router->post( "logout", ["uses" => "AuthController@logout"] );
     $router->get( "refresh", ["uses" => "AuthController@refresh"] ); 
     $router->post( "refresh", ["uses" => "AuthController@refresh"] );
-    $router->get( "profile", ["uses" => "AuthController@me"] );
+    
     $router->post( "tanaman", ["uses" => "TanamanController@postTanaman"]);
     
     $router->post( "post", ["uses" => "ForumController@createPost"]);
