@@ -34,7 +34,7 @@ $router->post( "register", ["uses" => "AuthController@register"] );
 */
 $router->group(
   [
-    "middleware" => "jwt.auth",
+    "middleware" => "jwt",
   ], function( $router ) {
     $router->post( "logout", ["uses" => "AuthController@logout"] );
     $router->get( "refresh", ["uses" => "AuthController@refresh"] ); 
