@@ -4,19 +4,22 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 
-class Post extends Model
+class Forum extends Model
 {
     protected $table = 'forums'; // Nama tabel yang terkait dengan model ini
 
     protected $fillable = [
-        'deskripsi',
-        'foto',
-        'id_user',
+        'id_user', 
+        'tanggal', 
+        'deskripsi', 
+        'foto', 
+        'like_count', 
+        'comment_count',
     ];
 
     public function user()
     {
-        return $this->belongsTo(User::class);
+        return $this->belongsTo(User::class, 'id_user');
     }
 
     public function likes()
@@ -26,7 +29,7 @@ class Post extends Model
 
     public function comments()
     {
-        return $this->hasMany(Comment::class);
+        return $this->hasMany(Comment::class, 'id_forum');
     }
 
     public function shares()
@@ -36,7 +39,7 @@ class Post extends Model
 
     public function bookmarks()
     {
-        return $this->hasMany(Bookmark::class);
+        return $this->hasMany(ForumBookmark::class, 'id_forum');
     }
 
     public function getLikeCountAttribute()

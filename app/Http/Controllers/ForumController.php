@@ -4,7 +4,9 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 
-use App\Models\Post;
+use App\Models\Forum;
+use App\Models\Comment;
+use App\Models\ForumBookmark;
 use Validator;
 
 
@@ -31,6 +33,27 @@ class ForumController extends Controller
             'message' => 'Post created successfully',
             'data' => $post
         ], 201);
+    }
+    
+    public function getForums()
+    {
+        $forums = Forum::with(['user', 'comments', 'bookmarks'])->get();
+        return response()->json($forums, 200);
+    }
+    
+    public function createForum(Request $request)
+    {
+        $data = $request->validate([
+            'id_user' => 'required|integer',
+            'tanggal' => 'required|date',
+            'deskripsi' => 'required|string',
+            'foto' => 'nullable|string',
+        ]);
+
+        $forum->tanggal = date('Y-m-d');
+        $forum->deskripsi = $request->input('deskripsi');
+        $forum = Forum::create($data);
+        return response()->json($forum, 201);
     }
 
     public function Like(Request $request, $postId)
