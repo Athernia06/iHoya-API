@@ -22,34 +22,14 @@ class Forum extends Model
         return $this->belongsTo(User::class, 'id_user');
     }
 
-    public function likes()
-    {
-        return $this->hasMany(Like::class);
-    }
-
     public function comments()
     {
         return $this->hasMany(Comment::class, 'id_forum');
     }
 
-    public function shares()
-    {
-        return $this->hasMany(Share::class);
-    }
-
     public function bookmarks()
     {
         return $this->hasMany(ForumBookmark::class, 'id_forum');
-    }
-
-    public function getLikeCountAttribute()
-    {
-        return $this->likes->count();
-    }
-
-    public function getCommentCountAttribute()
-    {
-        return $this->comments->count();
     }
     public $timestamps = false;
 }

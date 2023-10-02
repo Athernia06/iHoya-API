@@ -10,6 +10,7 @@ use App\Models\Post;
 use App\Models\Forum;
 use App\Models\Comment;
 use App\Models\ForumBookmark;
+use App\Models\Likes;
 use Validator;
 
 
@@ -42,6 +43,7 @@ class ForumController extends Controller
         //print_r(base_path().'/public');
         //die();
         file_put_contents(base_path().'/public/forum/'.$imageName, $file);
+        
         // Proses pembuatan posting dengan data yang telah divalidasi
         $user = $request->user(); // Mengambil informasi pengguna yang terautentikasi
         $post = new Forum;
@@ -58,18 +60,112 @@ class ForumController extends Controller
         ], 201);
     }
     
-    public function getForums()
+    public function getForums($userId=null)
     {
-        $forums = Forum::with(['user', 'comments', 'bookmarks'])->get();
+        if (isset($userId)) {
+            $get_forum = ForumBookmark::where('id_user', $userId)->get();
+            $forumId = [];
+            foreach ($get_forum as $value) {
+                array_push($forumId, $value->id_forum);
+            }
+            $forums = Forum::with(['user', 'comments', 'bookmarks'])->whereIn("id", $forumId)->get();
+        } else {
+            $forums = Forum::with(['user', 'comments', 'bookmarks'])->get();
+        }
+        
         return response()->json($forums, 200);
     }
     
+    public function updateForums(Request $request)
+    {
+        $forums = Forum::find($request['id_forum']);
+        
+        if (!$forums) {
+            return response()->json(['post' => 'Post Not Found'], 404);
+        }
+        
+        $this->validate($request, [
+            'deskripsi' => 'required|string'
+        ]);
+        
+        $user = $request->all();
+        $forums->fill($user);
+        $forums->save();
+        
+        return response()->json($forums);
+    }
+    
+    public function destroy(Request $request)
+    {
+        $forums = Forum::find($request['id_forum']);
+        
+        if (!$forums) {
+            return response()->json(['message' => 'Post not found'], 404);
+        }
+        
+        $forums->delete();
+        
+        return response()->json(['message' => 'Post deleted successfully'], 200);
+    }
+    
+    public function commentStore(Request $request)
+    {
+        $this->validate($request, [
+            'deskripsi' => 'required|string',
+        ]); 
+        
+        // Proses pembuatan posting dengan data yang telah divalidasi
+        $user = $request->user(); // Mengambil informasi pengguna yang terautentikasi
+        $post = new Comment;
+        $post->id_user = $user->id;
+        $post->id_forum = $request['id_forum'];
+        $post->deskripsi = $request->input('deskripsi');
+        $post->save();
+        
+        return response()->json([
+            'success' => true,
+            'message' => 'Comment created successfully',
+            'data' => $post
+        ], 201);
+    }
+
+    public function commentUpdate(Request $request)
+    {
+        $this->validate($request, [
+            'deskripsi' => 'required|string',
+        ]); 
+        
+        // Proses pembuatan posting dengan data yang telah divalidasi
+        $user = $request->user(); // Mengambil informasi pengguna yang terautentikasi
+        $post = Comment::find($request['id_comment']);
+        $post->deskripsi = $request->input('deskripsi');
+        $post->save();
+        
+        return response()->json([
+            'success' => true,
+            'message' => 'Comment updated successfully',
+            'data' => $post
+        ], 201);
+    }
+
+    public function commentDelete(Request $request)
+    {   
+        // Proses pembuatan posting dengan data yang telah divalidasi
+        $post = Comment::find($request['id_comment']);
+        $post->delete();
+        
+        return response()->json([
+            'success' => true,
+            'message' => 'Comment deleted successfully'
+        ], 201);
+    }
+
     public function Like(Request $request, $postId)
     {
         $user = Auth::user();
-        $post = Post::findOrFail($postId);
+        $post = Forum::findOrFail($postId);
         
-        $like = Like::where('id_forum', $post->id)
+        $like = Likes::where('id_forum', $post->id)
         ->where('id_user', $user->id)
         ->first();
         
@@ -77,7 +173,7 @@ class ForumController extends Controller
             $like->delete();
             $message = 'Post unliked successfully';
         } else {
-            $like = new Like([
+            $like = new Likes([
                 'id_forum' => $post->id,
                 'id_user' => $user->id,
             ]);
@@ -86,26 +182,6 @@ class ForumController extends Controller
         }
         
         return response()->json(['message' => $message]);
-    }
-    
-    public function Comment(Request $request, $postId)
-    {
-        $this->validate($request, [
-            'deskripsi' => 'required|string',
-        ]);
-        
-        $user = Auth::user();
-        $post = Post::findOrFail($postId);
-        
-        $comment = new Comment([
-            'id_forum' => $post->id,
-            'id_user' => $user->id,
-            'deskripsi' => $request->input('deskripsi'),
-        ]);
-        
-        $comment->save();
-        
-        return response()->json(['message' => 'Comment created successfully']);
     }
     
     public function Share(Request $request, $postId)
@@ -135,9 +211,9 @@ class ForumController extends Controller
     public function createBookmark(Request $request, $postId)
     {
         $user = Auth::user();
-        $post = Post::findOrFail($postId);
+        $post = Forum::findOrFail($postId);
         
-        $bookmark = Bookmark::where('id_forum', $post->id)
+        $bookmark = ForumBookmark::where('id_forum', $post->id)
         ->where('id_user', $user->id)
         ->first();
         
@@ -145,7 +221,7 @@ class ForumController extends Controller
             $bookmark->delete();
             $message = 'Post unbookmarked successfully';
         } else {
-            $bookmark = new Bookmark([
+            $bookmark = new ForumBookmark([
                 'id_forum' => $post->id,
                 'id_user' => $user->id,
             ]);

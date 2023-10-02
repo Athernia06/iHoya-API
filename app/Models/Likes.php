@@ -1,19 +1,15 @@
 <?php
-
+ 
 namespace App\Models;
-
+ 
 use Illuminate\Database\Eloquent\Model;
-
-class Comment extends Model
+ 
+class Likes extends Model
 {
-    protected $fillable = ['id_forum', 'id_user', 'deskripsi'];
+    protected $table = 'likes'; // Nama tabel yang terkait dengan model ini
+    protected $fillable = ['id_user', 'id_forum'];
     public $timestamps = false;
-
-    public function user()
-    {
-        return $this->belongsTo(User::class, 'id_user');
-    }
-
+    
     public function forum()
     {
         return $this->belongsTo(Forum::class, 'id_forum');

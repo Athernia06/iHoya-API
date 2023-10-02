@@ -44,13 +44,23 @@ $router->group(
     $router->post( "tanaman", ["uses" => "TanamanController@postTanaman"]);
     //Forum
     $router->post( "post", ["uses" => "ForumController@createPost"]);
-    $router->get( "post/{postId}/likes", ["uses" => "ForumController@createLike"]);
-    $router->post( "post/{postId}/comments", ["uses" => "ForumController@createComment"]);
+    $router->post( "post/{postId}/likes", ["uses" => "ForumController@Like"]);
     $router->post( "post/{postId}/shares", ["uses" => "ForumController@createShare"]);
     $router->post( "post/{postId}/bookmarks", ["uses" => "ForumController@createBookmark"]);
 
     $router->get( "forums", ["uses" => "ForumController@getForums"]);
+    $router->get( "forums/{userId}", ["uses" => "ForumController@getForums"]);
     $router->post( "forums", ["uses" => "ForumController@createForums"]);
+    
+    $router->post( "post/update", ["uses" => "ForumController@updateForums"]);
+
+    $router->post( "post/delete","ForumController@destroy" );
+    
+    //Comment
+    $router->post( "comment/store", ["uses" => "ForumController@commentStore"]);
+    $router->post( "comment/update", ["uses" => "ForumController@commentUpdate"]);
+    $router->post( "comment/delete","ForumController@commentDelete" );
+
     //ListTanaman
     $router->get( "tanaman", ["uses" => "TanamanController@listTanaman"]);
   });
