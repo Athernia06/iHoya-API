@@ -42,6 +42,7 @@ $router->group(
     $router->post( "refresh", ["uses" => "AuthController@refresh"] );
     $router->get( "profile", ["uses" => "AuthController@me"] );
     $router->post( "tanaman", ["uses" => "TanamanController@postTanaman"]);
+    
     //Forum
     $router->post( "post", ["uses" => "ForumController@createPost"]);
     $router->post( "post/{postId}/likes", ["uses" => "ForumController@Like"]);
@@ -51,9 +52,7 @@ $router->group(
     $router->get( "forums", ["uses" => "ForumController@getForums"]);
     $router->get( "forums/{userId}", ["uses" => "ForumController@getForums"]);
     $router->post( "forums", ["uses" => "ForumController@createForums"]);
-    
     $router->post( "post/update", ["uses" => "ForumController@updateForums"]);
-
     $router->post( "post/delete","ForumController@destroy" );
     
     //Comment
