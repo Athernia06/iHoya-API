@@ -62,4 +62,6 @@ $router->group(
 
     //ListTanaman
     $router->get( "tanaman", ["uses" => "TanamanController@listTanaman"]);
+    $router->get( "pulau/tanaman", ["uses" => "TanamanController@getTanaman"]);
+    $router->get( "pulau", ["uses" => "TanamanController@listPulau"]);
   });

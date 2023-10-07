@@ -5,6 +5,7 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 
 use App\Models\Tanaman;
+use App\Models\Pulau;
 use Validator;
 
 
@@ -67,7 +68,20 @@ class TanamanController extends Controller
     
     function listTanaman()
     {
-        $tanamanPerPulau = Tanaman::with('pulau')->get()->groupBy('id_pulau');
+        $tanamanPerPulau = Tanaman::get();
         return response()->json($tanamanPerPulau, 200);
+    }
+
+    public function getTanaman()
+    {
+        $id_pulau=$_GET['id_pulau'];
+        $tanamanPerPulau = Tanaman::where('id_pulau', $id_pulau)->get();
+        return response()->json($tanamanPerPulau, 200);
+    }
+
+    public function listPulau()
+    {
+        $listPulau = Pulau::get();
+        return response()->json($listPulau, 200);
     }
 }
