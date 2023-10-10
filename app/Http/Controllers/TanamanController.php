@@ -79,6 +79,23 @@ class TanamanController extends Controller
         return response()->json($tanamanPerPulau, 200);
     }
 
+    public function getDetail($id)
+    {
+        // $id_tanaman=$_GET['id'];
+        // $detailTanaman = Tanaman::where('id', $id_tanaman)->get();
+        // return response()->json($detailTanaman, 200);
+
+        // $detail_tanaman = Tanaman::select('id', 'nama', 'deskripsi', 'foto')->get();
+        // return response()->json($detail_tanaman, 200);
+        
+        $detail_tanaman = Tanaman::find($id);
+        if (!$detail_tanaman){
+            return response()->json(['message'=>'Data tidak ditemukan'], 404);
+        }
+
+        return response()->json($detail_tanaman, 200);
+    }
+
     public function listPulau()
     {
         $listPulau = Pulau::get();
